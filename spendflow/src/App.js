@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-
+import useRouteLoader from "./useRouteLoader";
 import ExpenseList from "./ExpenseList";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -30,7 +30,7 @@ function App() {
   useEffect(() => {
     registerGlobalLoader(setLoading);
   }, []);
-
+   useRouteLoader(setLoading);
   return (
     <div className={`App ${theme}`}>
       <GlobalLoader show={loading} />

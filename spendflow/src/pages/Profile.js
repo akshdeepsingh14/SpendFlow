@@ -368,7 +368,7 @@ export default function Profile() {
     setDeleting(true);
     try {
       const t = getToken();
-      const res = await apiFetch(`${API_BASE}/auth/delete-account`, {
+      const res = await apiFetch(`${API_BASE}/api/auth/delete-account`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${t}`,

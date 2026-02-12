@@ -64,8 +64,10 @@ function ExpenseList() {
       const token = getToken();
 
       const res = await apiFetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-     }); 
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await res.json().catch(() => null);
 
@@ -120,8 +122,7 @@ function ExpenseList() {
     try {
       const token = getToken();
 
-     const res = await apiFetch(`${API_BASE}/api/expenses/${editing._id}`, {
-
+      const res = await apiFetch(`${API_BASE}/api/expenses/${editing._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -164,8 +165,6 @@ function ExpenseList() {
 
     const token = getToken();
     const res = await apiFetch(`${API_BASE}/api/expenses`, {
-
-
       method: "POST",
       headers: {
         "Content-Type": "application/json",
