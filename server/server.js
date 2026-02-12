@@ -7,17 +7,7 @@ const cors = require("cors");
 const app = express();
 
 // ✅ Middleware
-// Allow requests from your desktop + phone (React dev server origins)
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://192.168.29.8:3000",
-    ],
-    credentials: true,
-  })
-);
-
+app.use(cors());
 app.use(express.json());
 
 // ✅ Routes
@@ -35,8 +25,8 @@ mongoose
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
-// ✅ IMPORTANT: listen on all interfaces so phone can access
+// ✅ Render-friendly listen
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
