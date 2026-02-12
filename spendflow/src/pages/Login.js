@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API_BASE from "../api";
 import { setToken } from "../auth";
+import { apiFetch } from "../apiFetch";
 
 function normalizeUsername(v) {
   return (v || "").trim().toLowerCase();
@@ -97,14 +98,14 @@ export default function Login() {
 
     try {
       // 🔥 FIXED ENDPOINT HERE
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: normalizeUsername(username),
-          password,
-        }),
-      });
+      const res = await apiFetch(`${API_BASE}/api/auth/login`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    username: normalizeUsername(username),
+    password,
+  }),
+});
 
       const data = await res.json().catch(() => ({}));
 

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import API_BASE from "../api";
 import { getToken, logout } from "../auth";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../apiFetch";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -36,9 +37,8 @@ export default function Profile() {
     const load = async () => {
       try {
         const t = getToken();
-        const res = await fetch(`${API_BASE}/api/auth/me`, {
-
-          headers: { Authorization: `Bearer ${t}` },
+        const res = await apiFetch(`${API_BASE}/api/auth/me`, {
+         headers: { Authorization: `Bearer ${t}` },
         });
 
         const data = await res.json().catch(() => ({}));
@@ -70,9 +70,9 @@ export default function Profile() {
       setLoadingMonthly(true);
       try {
         const t = getToken();
-        const res = await fetch(`${API_BASE}/api/expenses`, {
+        const res = await apiFetch(`${API_BASE}/api/expenses`, {
 
-          headers: { Authorization: `Bearer ${t}` },
+           headers: { Authorization: `Bearer ${t}` },
         });
 
         const data = await res.json().catch(() => null);
@@ -368,7 +368,7 @@ export default function Profile() {
     setDeleting(true);
     try {
       const t = getToken();
-      const res = await fetch(`${API_BASE}/auth/delete-account`, {
+      const res = await apiFetch(`${API_BASE}/auth/delete-account`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${t}`,

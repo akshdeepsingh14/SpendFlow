@@ -1,9 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import API_BASE from "./api";
 import { getToken } from "./auth";
+import { apiFetch } from "./apiFetch";
 
 const CATS_KEY = "spendflow-custom-categories";
 
+/* ---------- helpers ---------- */
 function normalizeCat(s) {
   return String(s || "").trim();
 }
@@ -26,40 +28,46 @@ function saveCats(cats) {
   localStorage.setItem(CATS_KEY, JSON.stringify(cats));
 }
 
+/* ---------- component ---------- */
 function AddExpense({ onAdd }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [otherCategory, setOtherCategory] = useState("");
 
-  // Default categories
+  /* Default categories */
   const defaultCategories = useMemo(
     () => ["Food", "Transport", "Entertainment"],
     []
   );
 
-  // ✅ Load custom categories from localStorage
+  /* Custom categories from localStorage */
   const [customCategories, setCustomCategories] = useState(() =>
     loadSavedCats()
   );
 
-  // ✅ Save custom categories whenever they change
+  /* Save custom categories whenever they change */
   useEffect(() => {
     saveCats(customCategories);
   }, [customCategories]);
 
+  /* ---------- submit ---------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const finalCategory =
-      category === "Other" ? normalizeCat(otherCategory) : normalizeCat(category);
+      category === "Other"
+        ? normalizeCat(otherCategory)
+        : normalizeCat(category);
 
     if (!normalizeCat(title) || !amount || !finalCategory) return;
 
-    // ✅ Add new custom category (case-insensitive unique)
+    /* Add new custom category if user typed one */
     if (category === "Other") {
       const allCats = [...defaultCategories, ...customCategories];
-      const exists = allCats.some((c) => equalsIgnoreCase(c, finalCategory));
+      const exists = allCats.some((c) =>
+        equalsIgnoreCase(c, finalCategory)
+      );
 
       if (!exists) {
         setCustomCategories((prev) => [...prev, finalCategory]);
@@ -75,8 +83,8 @@ function AddExpense({ onAdd }) {
     try {
       const token = getToken();
 
-      // ✅ FIXED ENDPOINT HERE
-      const res = await fetch(`${API_BASE}/api/expenses`, {
+      /* ✅ use apiFetch so global loader works */
+      const res = await apiFetch(`${API_BASE}/api/expenses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,19 +93,28 @@ function AddExpense({ onAdd }) {
         body: JSON.stringify(expense),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
+      /* ❌ stop if API failed */
+      if (!res.ok) {
+        console.error(data?.message || "Add expense failed");
+        return;
+      }
+
+      /* ✅ only add to UI if backend succeeded */
       onAdd(data);
 
+      /* Reset form */
       setTitle("");
       setAmount("");
       setCategory("");
       setOtherCategory("");
     } catch (err) {
-      console.error(err);
+      console.error("Network error while adding expense:", err);
     }
   };
 
+  /* ---------- UI ---------- */
   return (
     <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
       <input
@@ -116,7 +133,7 @@ function AddExpense({ onAdd }) {
         required
       />
 
-      {/* Category dropdown */}
+      {/* Category */}
       <div style={{ display: "flex", flexDirection: "column" }}>
         <select
           value={category}
@@ -131,7 +148,6 @@ function AddExpense({ onAdd }) {
             </option>
           ))}
 
-          {/* ✅ custom categories (saved) */}
           {customCategories.map((cat) => (
             <option key={cat} value={cat}>
               {cat}

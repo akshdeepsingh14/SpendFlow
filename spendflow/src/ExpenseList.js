@@ -3,6 +3,7 @@ import AddExpense from "./AddExpense";
 import CategoryChart from "./CategoryChart";
 import API_BASE from "./api";
 import { getToken, logout } from "./auth";
+import { apiFetch } from "./apiFetch";
 
 const UNDO_KEY = "undo_delete_expense_v1";
 
@@ -62,11 +63,9 @@ function ExpenseList() {
     try {
       const token = getToken();
 
-      const res = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await apiFetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+     }); 
 
       const data = await res.json().catch(() => null);
 
@@ -121,7 +120,8 @@ function ExpenseList() {
     try {
       const token = getToken();
 
-      const res = await fetch(`${API_BASE}/api/expenses/${editing._id}`, {
+     const res = await apiFetch(`${API_BASE}/api/expenses/${editing._id}`, {
+
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -163,7 +163,8 @@ function ExpenseList() {
     };
 
     const token = getToken();
-    const res = await fetch(`${API_BASE}/api/expenses`, {
+    const res = await apiFetch(`${API_BASE}/api/expenses`, {
+
 
       method: "POST",
       headers: {
@@ -204,7 +205,8 @@ function ExpenseList() {
     // ✅ Delete from backend NOW (so refresh won't bring it back)
     try {
       const token = getToken();
-      const res = await fetch(`${API_BASE}/api/expenses/${expense._id}`, {
+      const res = await apiFetch(`${API_BASE}/api/expenses/${expense._id}`, {
+
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

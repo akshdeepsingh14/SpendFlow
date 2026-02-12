@@ -8,24 +8,36 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import { getToken } from "./auth";
 
+import GlobalLoader from "./GlobalLoader"; // ✅ add
+import { registerGlobalLoader } from "./apiFetch"; // ✅ add
+
 const THEME_KEY = "spendflow-theme";
 
 function App() {
-  // ✅ Load theme from localStorage on first render
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem(THEME_KEY) || "light";
   });
 
+  // ✅ add (global loader state)
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("");
+
   const token = getToken();
 
-  // ✅ Persist theme whenever it changes
   useEffect(() => {
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
+  // ✅ add (register loader once)
+  useEffect(() => {
+    registerGlobalLoader(setLoading, setLoadingText);
+  }, []);
+
   return (
     <div className={`App ${theme}`}>
-      {/* Top Bar: Theme only (Profile removed) */}
+      {/* ✅ add (loader overlay) */}
+      <GlobalLoader show={loading} text={loadingText} />
+
       <div
         style={{
           display: "flex",
@@ -36,9 +48,7 @@ function App() {
       >
         <button
           className="theme-toggle"
-          onClick={() =>
-            setTheme((t) => (t === "light" ? "dark" : "light"))
-          }
+          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
         >
           {theme === "light" ? "🌙 Dark" : "☀️ Light"}
         </button>
@@ -52,7 +62,6 @@ function App() {
           element={token ? <ExpenseList /> : <Navigate to="/login" />}
         />
 
-        {/* Profile route kept (no UI button) */}
         <Route
           path="/profile"
           element={token ? <Profile /> : <Navigate to="/login" />}

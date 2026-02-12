@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import API_BASE from "../api";
 import { setToken } from "../auth";
+import { apiFetch } from "../apiFetch";
 
 // ---------- Password strength ----------
 function scorePassword(pw) {
@@ -209,15 +210,16 @@ export default function Register() {
 
     try {
       // ✅ FIXED: add /api
-      const res = await fetch(`${API_BASE}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          username: normalizeUsername(username),
-          password,
-        }),
-      });
+     const res = await apiFetch(`${API_BASE}/api/auth/register`, {
+  method: "POST", // ✅ add
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name,
+    username: normalizeUsername(username),
+    password,
+  }),
+});
+
 
       const data = await res.json();
 
