@@ -1,0 +1,446 @@
+/* =========================
+   RESET + BASE
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+  --t-fast: 160ms;
+  --t-med: 280ms;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* =========================
+   APP THEMES
+========================= */
+.App {
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+
+  transition: background var(--t-med) ease, color var(--t-med) ease;
+}
+
+/* Light theme palette */
+.App.light {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  color: #2d3436;
+}
+
+/* Dark theme palette */
+.App.dark {
+  background: linear-gradient(135deg, #141517, #2c2f34);
+  color: #ecf0f1;
+}
+
+h1, h2, h3, h4 {
+  margin-bottom: 10px;
+}
+
+/* Links always visible */
+a {
+  transition: color var(--t-med) ease, opacity var(--t-med) ease;
+}
+
+.App.light a {
+  color: #0984e3;
+}
+
+.App.dark a {
+  color: #74b9ff;
+}
+
+a:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   MICRO ANIMATIONS
+========================= */
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes softPulse {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+  100% { transform: translateY(0); }
+}
+
+/* =========================
+   BUTTONS (SINGLE SOURCE)
+========================= */
+button {
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background-color: #6c5ce7;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+
+  transition:
+    transform var(--t-fast) ease,
+    filter var(--t-fast) ease,
+    background var(--t-med) ease,
+    box-shadow var(--t-med) ease,
+    opacity var(--t-med) ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+button:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Danger button (delete) */
+button.danger,
+li button {
+  background-color: #ff7675;
+}
+
+/* =========================
+   THEME TOGGLE
+========================= */
+/* Keep it fixed if you like it fixed */
+.theme-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+
+  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+  color: white;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.theme-toggle:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* =========================
+   GLASS CARD (FORMS + CARDS)
+========================= */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px auto 30px;
+  padding: 20px;
+  max-width: 500px;
+  border-radius: var(--radius-lg);
+
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+
+  animation: popIn var(--t-med) ease;
+  transition:
+    background var(--t-med) ease,
+    border var(--t-med) ease,
+    box-shadow var(--t-med) ease;
+}
+
+.App.light form {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.App.dark form {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* Inputs/selects shared styling */
+form input,
+form select,
+.filters-container input,
+.filters-container select {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0,0,0,0.10);
+  min-width: 150px;
+  outline: none;
+
+  transition:
+    background var(--t-med) ease,
+    color var(--t-med) ease,
+    border-color var(--t-med) ease,
+    transform var(--t-fast) ease;
+}
+
+.App.light form input,
+.App.light form select,
+.App.light .filters-container input,
+.App.light .filters-container select {
+  background: rgba(255, 255, 255, 0.85);
+  color: #2d3436;
+}
+
+.App.dark form input,
+.App.dark form select,
+.App.dark .filters-container input,
+.App.dark .filters-container select {
+  background: rgba(20, 20, 20, 0.85);
+  color: #ecf0f1;
+  border-color: rgba(255,255,255,0.12);
+}
+
+form input:focus,
+form select:focus,
+.filters-container input:focus,
+.filters-container select:focus {
+  transform: translateY(-1px);
+  border-color: rgba(108, 92, 231, 0.65);
+}
+
+/* =========================
+   LIST
+========================= */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px auto;
+  padding: 12px 18px;
+  max-width: 420px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+
+  transition:
+    background var(--t-med) ease,
+    box-shadow var(--t-med) ease,
+    transform var(--t-fast) ease;
+
+  animation: popIn var(--t-med) ease;
+}
+
+li:hover {
+  transform: translateY(-1px);
+}
+
+.App.light li {
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.App.dark li {
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+li button {
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.app-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    margin-top: 30px;
+  }
+}
+
+/* =========================
+   FILTERS
+========================= */
+.filters-container {
+  margin: 20px auto;
+  padding: 15px 20px;
+  max-width: 420px;
+  border-radius: var(--radius-lg);
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  box-shadow: var(--shadow-sm);
+  transition: background var(--t-med) ease, border var(--t-med) ease;
+}
+
+.App.light .filters-container {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.App.dark .filters-container {
+  background: rgba(20, 20, 20, 0.55);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.filters-container label {
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+  text-align: left;
+}
+
+.filters-container .date-section,
+.filters-container .category-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filters-container button.clear-date {
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #6c5ce7;
+}
+
+.filters-container button.clear-date:hover {
+  animation: softPulse 400ms ease;
+}
+
+@media (min-width: 768px) {
+  .filters-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .filters-container .date-section,
+  .filters-container .category-section {
+    flex: 1;
+  }
+
+  .filters-container .date-section {
+    margin-right: 10px;
+  }
+}
+
+/* =========================
+   TOTALS
+========================= */
+.totals-container {
+  margin: 20px auto;
+  max-width: 420px;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  font-weight: 700;
+
+  transition: background var(--t-med) ease, color var(--t-med) ease, border var(--t-med) ease;
+}
+
+.App.light .totals-container {
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.App.dark .totals-container {
+  background: rgba(20,20,20,0.55);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #ecf0f1;
+}
+
+.totals-container h3 {
+  margin: 0;
+}
+
+/* =========================
+   IMPORT CSV BUTTON
+========================= */
+.import-label {
+  padding: 10px 20px;
+  background-color: #6c5ce7;
+  color: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-block;
+  transition: transform var(--t-fast) ease, filter var(--t-fast) ease;
+  font-weight: 600;
+}
+
+.import-label:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.import-label:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+.import-label input {
+  display: none;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 600px) {
+  .App {
+    padding: 14px;
+  }
+
+  form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
