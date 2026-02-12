@@ -60,11 +60,11 @@ npm start
 npm run build
 ```
 
-📱 Usage
-Open the app in a browser
-Add expenses with amount and category
-View monthly summaries to analyze spending
-Install the app using Add to Home Screen on mobile
+## 📱 Usage
+- **Open the app in a browser**
+- **Add expenses with amount and category**
+- **View monthly summaries to analyze spending**
+- **Install the app using Add to Home Screen on mobile**
 
 👤 Author
 Akshdeep Singh
