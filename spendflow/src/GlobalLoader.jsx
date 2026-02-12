@@ -1,23 +1,32 @@
 import React from "react";
 
-export default function GlobalLoader({ show, text }) {
+export default function GlobalLoader({ show }) {
   if (!show) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 9999,
-        display: "grid",
-        placeItems: "center",
-        background: "rgba(0,0,0,0.25)",
-      }}
-    >
-      <div style={{ background: "white", padding: 18, borderRadius: 12, width: 340 }}>
-        <div style={{ fontWeight: 700, marginBottom: 6 }}>Loading…</div>
-        <div style={{ fontSize: 14, opacity: 0.8 }}>{text || "Please wait"}</div>
-      </div>
+    <div style={overlay}>
+      <div style={spinner}></div>
     </div>
   );
 }
+
+/* ---------- styles ---------- */
+
+const overlay = {
+  position: "fixed",
+  inset: 0,
+  zIndex: 9999,
+  background: "rgba(0,0,0,0.35)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const spinner = {
+  width: 48,
+  height: 48,
+  border: "4px solid rgba(255,255,255,0.3)",
+  borderTop: "4px solid white",
+  borderRadius: "50%",
+  animation: "spin 1s linear infinite",
+};

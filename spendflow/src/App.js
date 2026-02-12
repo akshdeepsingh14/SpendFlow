@@ -20,8 +20,7 @@ function App() {
 
   // ✅ add (global loader state)
   const [loading, setLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState("");
-
+  
   const token = getToken();
 
   useEffect(() => {
@@ -36,7 +35,8 @@ function App() {
   return (
     <div className={`App ${theme}`}>
       {/* ✅ add (loader overlay) */}
-      <GlobalLoader show={loading} text={loadingText} />
+      <GlobalLoader show={loading} />
+
 
       <div
         style={{
