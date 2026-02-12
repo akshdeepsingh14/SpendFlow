@@ -8,8 +8,8 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import { getToken } from "./auth";
 
-import GlobalLoader from "./GlobalLoader"; // ✅ add
-import { registerGlobalLoader } from "./apiFetch"; // ✅ add
+import GlobalLoader from "./GlobalLoader";
+import { registerGlobalLoader } from "./apiFetch";
 
 const THEME_KEY = "spendflow-theme";
 
@@ -18,25 +18,22 @@ function App() {
     return localStorage.getItem(THEME_KEY) || "light";
   });
 
-  // ✅ add (global loader state)
+  // ✅ ADD THIS (missing in your code)
   const [loading, setLoading] = useState(false);
-  
+
   const token = getToken();
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-  // ✅ add (register loader once)
   useEffect(() => {
-    registerGlobalLoader(setLoading, setLoadingText);
+    registerGlobalLoader(setLoading);
   }, []);
 
   return (
     <div className={`App ${theme}`}>
-      {/* ✅ add (loader overlay) */}
       <GlobalLoader show={loading} />
-
 
       <div
         style={{

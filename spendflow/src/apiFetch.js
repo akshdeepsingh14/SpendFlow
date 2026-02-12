@@ -1,27 +1,23 @@
 let setLoading = null;
 let setText = null;
 
-let active = 0;          // ✅ counts ongoing requests
-let wakeTimer = null;    // ✅ one shared “waking server” timer
+let active = 0;
+let wakeTimer = null;
 
 export function registerGlobalLoader(loadingFn, textFn) {
   setLoading = loadingFn;
-  setText = textFn;
+  setText = textFn || null; // ✅ optional
 }
 
 export async function apiFetch(url, options = {}) {
   active += 1;
-
-  // show loader
   setLoading?.(true);
 
-  // set a friendly message (only once)
-  if (active === 1) {
-    setText?.("Connecting to server…");
-
+  // ✅ Only set text if provided
+  if (setText && active === 1) {
+    setText("Connecting to server…");
     wakeTimer = setTimeout(() => {
-      // Render free usually sleeps → first request slow
-      setText?.("Waking up free server… (first time can be slow)");
+      setText("Waking up free server… (first time can be slow)");
     }, 2000);
   }
 
@@ -30,14 +26,13 @@ export async function apiFetch(url, options = {}) {
   } finally {
     active -= 1;
 
-    // if no more requests, hide loader
     if (active <= 0) {
       active = 0;
       if (wakeTimer) {
         clearTimeout(wakeTimer);
         wakeTimer = null;
       }
-      setText?.("");
+      if (setText) setText("");
       setLoading?.(false);
     }
   }

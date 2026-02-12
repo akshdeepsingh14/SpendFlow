@@ -5,12 +5,10 @@ export default function GlobalLoader({ show }) {
 
   return (
     <div style={overlay}>
-      <div style={spinner}></div>
+      <div style={spinner} />
     </div>
   );
 }
-
-/* ---------- styles ---------- */
 
 const overlay = {
   position: "fixed",
