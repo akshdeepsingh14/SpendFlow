@@ -66,8 +66,8 @@ npm run build
 - **View monthly summaries to analyze spending**
 - **Install the app using Add to Home Screen on mobile**
 
-👤 Author
+## 👤 Author
 Akshdeep Singh
 
-📄 License
+## 📄 License
 This project is open source and available for learning and personal use.
