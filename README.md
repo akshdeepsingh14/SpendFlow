@@ -58,6 +58,7 @@ npm start
 
 # Build for production
 npm run build
+```
 
 📱 Usage
 Open the app in a browser
@@ -70,4 +71,3 @@ Akshdeep Singh
 
 📄 License
 This project is open source and available for learning and personal use.
-
