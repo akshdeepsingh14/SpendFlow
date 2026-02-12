@@ -14,7 +14,7 @@ The app is built as a **Progressive Web App (PWA)**, so it can be installed on m
 
 ## 🚀 Live Demo
 
-👉 **Live App:** https://spendflow.vercel.app  
+👉 **Live App:** https://spend-flow-olive.vercel.app/login  
 
 Open the link in your browser and use **“Add to Home Screen”** to install the app.
 
