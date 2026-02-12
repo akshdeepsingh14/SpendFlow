@@ -36,7 +36,8 @@ export default function Profile() {
     const load = async () => {
       try {
         const t = getToken();
-        const res = await fetch(`${API_BASE}/auth/me`, {
+        const res = await fetch(`${API_BASE}/api/auth/me`, {
+
           headers: { Authorization: `Bearer ${t}` },
         });
 
@@ -69,7 +70,8 @@ export default function Profile() {
       setLoadingMonthly(true);
       try {
         const t = getToken();
-        const res = await fetch(`${API_BASE}/expenses`, {
+        const res = await fetch(`${API_BASE}/api/expenses`, {
+
           headers: { Authorization: `Bearer ${t}` },
         });
 
