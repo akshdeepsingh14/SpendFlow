@@ -56,7 +56,7 @@ function ExpenseList() {
 
   // Fetch expenses
   const fetchExpenses = async () => {
-    let url = `${API_BASE}/expenses`;
+    let url = `${API_BASE}/api/expenses`;
     if (selectedDate) url += `?date=${selectedDate}`;
 
     try {
@@ -121,7 +121,7 @@ function ExpenseList() {
     try {
       const token = getToken();
 
-      const res = await fetch(`${API_BASE}/expenses/${editing._id}`, {
+      const res = await fetch(`${API_BASE}/api/expenses/${editing._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -163,7 +163,8 @@ function ExpenseList() {
     };
 
     const token = getToken();
-    const res = await fetch(`${API_BASE}/expenses`, {
+    const res = await fetch(`${API_BASE}/api/expenses`, {
+
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -203,7 +204,7 @@ function ExpenseList() {
     // ✅ Delete from backend NOW (so refresh won't bring it back)
     try {
       const token = getToken();
-      const res = await fetch(`${API_BASE}/expenses/${expense._id}`, {
+      const res = await fetch(`${API_BASE}/api/expenses/${expense._id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

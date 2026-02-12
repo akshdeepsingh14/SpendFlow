@@ -96,7 +96,8 @@ export default function Login() {
     setMsg("");
 
     try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      // 🔥 FIXED ENDPOINT HERE
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -136,7 +137,6 @@ export default function Login() {
             required
           />
 
-          {/* Password with eye icon */}
           <div style={{ position: "relative" }}>
             <input
               style={{ ...styles.input, paddingRight: 46 }}

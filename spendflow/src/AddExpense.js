@@ -75,7 +75,8 @@ function AddExpense({ onAdd }) {
     try {
       const token = getToken();
 
-      const res = await fetch(`${API_BASE}/expenses`, {
+      // ✅ FIXED ENDPOINT HERE
+      const res = await fetch(`${API_BASE}/api/expenses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -153,7 +153,10 @@ export default function Register() {
     const timer = setTimeout(async () => {
       try {
         const res = await fetch(
-          `${API_BASE}/auth/check-username?username=${encodeURIComponent(value)}`
+          // ✅ FIXED: add /api
+          `${API_BASE}/api/auth/check-username?username=${encodeURIComponent(
+            value
+          )}`
         );
         const data = await res.json();
 
@@ -205,7 +208,8 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/auth/register`, {
+      // ✅ FIXED: add /api
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -261,7 +265,9 @@ export default function Register() {
               required
             />
             {usernameHint && (
-              <small style={{ color: usernameHint.color }}>{usernameHint.text}</small>
+              <small style={{ color: usernameHint.color }}>
+                {usernameHint.text}
+              </small>
             )}
           </div>
 
