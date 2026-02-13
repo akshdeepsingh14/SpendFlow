@@ -8,6 +8,7 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const [msg, setMsg] = useState("");
   const [isDark, setIsDark] = useState(false);
+  const [accountsCount, setAccountsCount] = useState(null);
 
   // ✅ Monthly summary state/data
   const [expenses, setExpenses] = useState([]);
@@ -38,7 +39,7 @@ export default function Profile() {
       try {
         const t = getToken();
         const res = await apiFetch(`${API_BASE}/api/auth/me`, {
-         headers: { Authorization: `Bearer ${t}` },
+          headers: { Authorization: `Bearer ${t}` },
         });
 
         const data = await res.json().catch(() => ({}));
@@ -71,8 +72,7 @@ export default function Profile() {
       try {
         const t = getToken();
         const res = await apiFetch(`${API_BASE}/api/expenses`, {
-
-           headers: { Authorization: `Bearer ${t}` },
+          headers: { Authorization: `Bearer ${t}` },
         });
 
         const data = await res.json().catch(() => null);
@@ -99,6 +99,37 @@ export default function Profile() {
     };
 
     loadExpenses();
+  }, [navigate]);
+
+  // ✅ Load total accounts count (Profile page)
+  useEffect(() => {
+    const loadAccountsCount = async () => {
+      try {
+        const t = getToken();
+        const res = await apiFetch(`${API_BASE}/api/stats/users-count`, {
+          headers: { Authorization: `Bearer ${t}` },
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.status === 401) {
+          logout();
+          navigate("/login");
+          return;
+        }
+
+        if (!res.ok) {
+          setAccountsCount(null);
+          return;
+        }
+
+        setAccountsCount(Number(data.count) || 0);
+      } catch {
+        setAccountsCount(null);
+      }
+    };
+
+    loadAccountsCount();
   }, [navigate]);
 
   const monthKey = (d) => {
@@ -415,6 +446,12 @@ export default function Profile() {
             </p>
             <p style={{ margin: "8px 0" }}>
               <b>Username:</b> {user.username}
+            </p>
+
+            {/* ✅ Total accounts created */}
+            <p style={{ margin: "8px 0" }}>
+              <b>Total accounts created:</b>{" "}
+              {accountsCount === null ? "Loading..." : accountsCount}
             </p>
           </div>
         )}
